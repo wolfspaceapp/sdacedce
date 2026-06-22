@@ -1253,19 +1253,25 @@ function navigate(moduleName, action) {
         loadingScreen.classList.add('show');
     }
     
-    // Simular navegación
+    // Navegar después de mostrar la animación
     setTimeout(() => {
         console.log(`Navegando a ${moduleName} con acción: ${action}`);
-        // window.location.href = `/modules/${action}`;
         
-        // Ocultar la pantalla de carga
+        // Si es una URL go: (Android custom URL), abrirla directamente
+        if (action && action.startsWith('go:')) {
+            window.location.href = action;
+        } else if (action) {
+            // Para otras URLs, abrir normalmente
+            window.location.href = action;
+        }
+        
+        // Fallback: Ocultar la pantalla de carga si la navegación falla
         setTimeout(() => {
             if (loadingScreen) {
                 loadingScreen.classList.remove('show');
             }
-            showNotification(`Módulo ${moduleName}`, 'Preparando tu experiencia...');
-        }, 1500);
-    }, 300);
+        }, 2000);
+    }, 800);
 }
 
 // Abrir diálogos/modales
